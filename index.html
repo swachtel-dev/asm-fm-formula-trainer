@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam FM Formula Trainer</title>
+
+<!-- KaTeX (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+
+<style>
+  :root{
+    --bg:#f4f6f8;
+    --surface:#ffffff;
+    --ink:#1f2933;
+    --ink-soft:#52606d;
+    --line:#dde3e8;
+    --accent:#2f6f8f;
+    --accent-soft:#e3eef3;
+    --again:#b3543f;
+    --hard:#9a7a2e;
+    --good:#3a7d44;
+    --easy:#2f6f8f;
+    --focus:#1b6ec2;
+    --radius:14px;
+    --shadow:0 1px 3px rgba(31,41,51,.08),0 6px 20px rgba(31,41,51,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#161b20;--surface:#1f262d;--ink:#e7ecf0;--ink-soft:#a7b1bb;
+      --line:#323a43;--accent:#7fb6d1;--accent-soft:#243640;--shadow:0 1px 3px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+  header h1{font-size:1.25rem;margin:0 0 2px;font-weight:650;letter-spacing:.2px}
+  header p{margin:0;color:var(--ink-soft);font-size:.9rem}
+
+  /* Stats bar */
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+  .stat{
+    flex:1 1 120px;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);
+  }
+  .stat .num{font-size:1.5rem;font-weight:700;line-height:1.1}
+  .stat .lbl{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin-top:2px}
+
+  /* Controls */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+  label.field{font-size:.82rem;color:var(--ink-soft);display:flex;flex-direction:column;gap:4px}
+  select,button{
+    font:inherit;border-radius:10px;border:1px solid var(--line);
+    background:var(--surface);color:var(--ink);padding:9px 12px;cursor:pointer;
+  }
+  select{min-width:170px}
+  button:hover{border-color:var(--accent)}
+  button:focus-visible,select:focus-visible,.card:focus-visible{
+    outline:3px solid var(--focus);outline-offset:2px;
+  }
+  .btn-ghost{background:transparent}
+  .spacer{flex:1}
+
+  /* Card */
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);min-height:280px;padding:26px 24px;
+    display:flex;flex-direction:column;gap:14px;position:relative;
+  }
+  .card .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:.72rem}
+  .pill{
+    background:var(--accent-soft);color:var(--accent);border-radius:999px;
+    padding:3px 10px;font-weight:600;letter-spacing:.02em;
+  }
+  .pill.type{background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
+  .face{display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center}
+  .face .prompt-label{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
+  .face .text{font-size:1.12rem}
+  .math{font-size:1.35rem;overflow-x:auto;padding:6px 0}
+  .text.sub{font-size:.85rem;color:var(--ink-soft)}
+  .mnemonic{
+    font-size:.92rem;color:var(--ink-soft);border-left:3px solid var(--accent);
+    padding:6px 0 6px 12px;background:var(--accent-soft);border-radius:0 8px 8px 0;
+  }
+  .mnemonic b{color:var(--ink)}
+  hr.divider{border:none;border-top:1px dashed var(--line);margin:4px 0}
+
+  /* Action zone */
+  .actions{margin-top:16px}
+  .reveal-btn{width:100%;padding:14px;font-size:1rem;font-weight:600;background:var(--accent);color:#fff;border-color:var(--accent)}
+  .reveal-btn:hover{filter:brightness(1.05)}
+  .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .grade{padding:12px 6px;font-weight:600;color:#fff;border:none;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .grade small{font-weight:500;opacity:.85;font-size:.7rem}
+  .grade .ivl{font-size:.7rem;font-weight:600;opacity:.95}
+  .grade.again{background:var(--again)}
+  .grade.hard{background:var(--hard)}
+  .grade.good{background:var(--good)}
+  .grade.easy{background:var(--easy)}
+  .kbd{font-size:.68rem;opacity:.8;font-family:ui-monospace,Menlo,monospace}
+
+  .empty{text-align:center;padding:50px 20px;color:var(--ink-soft)}
+  .empty h2{color:var(--ink);font-size:1.1rem}
+
+  footer{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.82rem;color:var(--ink-soft)}
+  .hint{font-size:.78rem;color:var(--ink-soft);margin-top:10px;text-align:center}
+  .toast{
+    position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+    background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;
+    font-size:.85rem;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .25s;
+  }
+  .toast.show{opacity:1}
+  .src-note{font-size:.72rem;color:var(--ink-soft);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Exam FM Formula Trainer</h1>
+    <p>There is no formula sheet on Exam FM. Five minutes a day here beats an hour of cramming later. Ungraded practice.</p>
+    <p class="src-note" id="srcNote" aria-live="polite"></p>
+  </header>
+
+  <section class="stats" aria-label="Progress statistics">
+    <div class="stat"><div class="num" id="sDue">0</div><div class="lbl">Due today</div></div>
+    <div class="stat"><div class="num" id="sLearned">0</div><div class="lbl">Learned</div></div>
+    <div class="stat"><div class="num" id="sNew">0</div><div class="lbl">New</div></div>
+    <div class="stat"><div class="num" id="sTotal">0</div><div class="lbl">Deck size</div></div>
+    <div class="stat"><div class="num" id="sStreak">0</div><div class="lbl">Day streak</div></div>
+  </section>
+
+  <div class="controls">
+    <label class="field">Course week
+      <select id="unitFilter" aria-label="Cards introduced through this course week"></select>
+    </label>
+    <label class="field">Topic
+      <select id="topicFilter" aria-label="Filter by topic"></select>
+    </label>
+    <div class="spacer"></div>
+    <button class="btn-ghost" id="btnExport">Export progress</button>
+    <button class="btn-ghost" id="btnImport">Import progress</button>
+    <button class="btn-ghost" id="btnReset" title="Reset all scheduling">Reset</button>
+    <input type="file" id="fileInput" accept="application/json" hidden>
+  </div>
+
+  <main id="study" aria-live="polite"></main>
+
+  <p class="hint">Keyboard: <b>Space</b> reveal &middot; <b>1</b> Again &middot; <b>2</b> Hard &middot; <b>3</b> Good &middot; <b>4</b> Easy</p>
+
+  <footer>
+    <span>Scheduler: FSRS v4 (free-spaced-repetition).</span>
+    <span class="spacer"></span>
+    <span id="deckCount"></span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   Exam FM Flashcards - candidate B
+   FSRS v4 scheduler + KaTeX rendering + localStorage state
+   ============================================================ */
+
+/* ---------- Built-in starter deck (~20 core FM formula cards) ---------- */
+const FULL_DECK = [{"id":"fm-int-001","type":"formula","topic":"Interest & Discount","unit":2,"front":"Accumulated value of 1 after n years at effective annual rate i (compound interest)","back":"(1 + i)^n","latexFront":"AV \\text{ of } 1 \\text{ after } n \\text{ years at rate } i","latexBack":"(1+i)^n","mnemonic":"Compound = repeated multiplication; n factors of (1+i).","source":"ASM FM / standard theory of interest","tags":["interest","compound","accumulation"],"confidence":"high"},{"id":"fm-int-002","type":"relationship","topic":"Interest & Discount","unit":2,"front":"Discount factor v in terms of effective interest rate i","back":"v = 1/(1+i), so present value of 1 one year hence is v","latexFront":"v = ?","latexBack":"v = \\dfrac{1}{1+i} = (1+i)^{-1}","mnemonic":"v 'voids' one year of interest growth.","source":"ASM FM","tags":["interest","discount","present-value"],"confidence":"high"},{"id":"fm-int-003","type":"relationship","topic":"Interest & Discount","unit":2,"front":"Effective annual discount rate d in terms of i","back":"d = i/(1+i) = iv = 1 - v","latexFront":"d = ?","latexBack":"d = \\dfrac{i}{1+i} = iv = 1 - v","mnemonic":"Discount is interest paid up front, so it is i scaled down by (1+i).","source":"ASM FM","tags":["interest","discount"],"confidence":"high"},{"id":"fm-int-004","type":"relationship","topic":"Interest & Discount","unit":2,"front":"i in terms of d","back":"i = d/(1 - d)","latexFront":"i = ?","latexBack":"i = \\dfrac{d}{1-d}","mnemonic":"Invert the d = i/(1+i) relationship.","source":"ASM FM","tags":["interest","discount"],"confidence":"high"},{"id":"fm-int-005","type":"relationship","topic":"Interest & Discount","unit":2,"front":"Key identity linking i and d (difference equals product)","back":"i - d = id (equivalently d = i - id)","latexFront":"i - d = ?","latexBack":"i - d = id","mnemonic":"The gap between i and d is exactly their product.","source":"ASM FM","tags":["interest","discount","identity"],"confidence":"high"},{"id":"fm-int-006","type":"formula","topic":"Interest & Discount","unit":2,"front":"Effective rate i in terms of nominal interest rate i^(m) compounded m times per year","back":"1 + i = (1 + i^(m)/m)^m","latexFront":"1+i = ?\\ \\text{(nominal } i^{(m)}\\text{)}","latexBack":"1+i = \\left(1+\\dfrac{i^{(m)}}{m}\\right)^{m}","mnemonic":"Per-period rate is i^(m)/m, applied m times.","source":"ASM FM","tags":["interest","nominal","effective"],"confidence":"high"},{"id":"fm-int-007","type":"formula","topic":"Interest & Discount","unit":2,"front":"Effective rate relation for nominal discount d^(m) compounded m times per year","back":"1 - d = (1 - d^(m)/m)^m, equivalently v = (1 - d^(m)/m)^m","latexFront":"1-d = ?\\ \\text{(nominal } d^{(m)}\\text{)}","latexBack":"1-d = \\left(1-\\dfrac{d^{(m)}}{m}\\right)^{m}","mnemonic":"Mirror of the nominal-interest formula with minus signs.","source":"ASM FM","tags":["interest","nominal","discount"],"confidence":"high"},{"id":"fm-int-008","type":"relationship","topic":"Interest & Discount","unit":2,"front":"Relationship between nominal interest i^(m) and nominal discount d^(m) at the same frequency m","back":"(1 + i^(m)/m)(1 - d^(m)/m) = 1; also i^(m)/m - d^(m)/m = (i^(m)/m)(d^(m)/m)","latexFront":"\\left(1+\\tfrac{i^{(m)}}{m}\\right)\\left(1-\\tfrac{d^{(m)}}{m}\\right) = ?","latexBack":"\\left(1+\\dfrac{i^{(m)}}{m}\\right)\\left(1-\\dfrac{d^{(m)}}{m}\\right) = 1","mnemonic":"Per-period accumulation and per-period discount are reciprocals.","source":"ASM FM","tags":["interest","nominal","discount"],"confidence":"high"},{"id":"fm-int-009","type":"formula","topic":"Interest & Discount","unit":2,"front":"Force of interest δ as the limit of nominal rates (relation to i)","back":"δ = ln(1 + i); equivalently 1 + i = e^δ and v = e^(-δ)","latexFront":"\\delta = ?\\ \\text{(constant force)}","latexBack":"\\delta = \\ln(1+i),\\quad 1+i = e^{\\delta},\\quad v = e^{-\\delta}","mnemonic":"Force = log of the annual growth factor; continuous compounding.","source":"ASM FM","tags":["interest","force","continuous"],"confidence":"high"},{"id":"fm-int-010","type":"formula","topic":"Interest & Discount","unit":2,"front":"Force of interest δ_t from a general accumulation function a(t)","back":"δ_t = a'(t)/a(t) = d/dt [ln a(t)]","latexFront":"\\delta_t = ?\\ \\text{from } a(t)","latexBack":"\\delta_t = \\dfrac{a'(t)}{a(t)} = \\dfrac{d}{dt}\\ln a(t)","mnemonic":"Force is the instantaneous relative growth rate of the fund.","source":"ASM FM","tags":["interest","force","accumulation"],"confidence":"high"},{"id":"fm-int-011","type":"formula","topic":"Interest & Discount","unit":2,"front":"Accumulation function a(t) recovered from a (possibly time-varying) force of interest δ_s","back":"a(t) = exp( ∫_0^t δ_s ds )","latexFront":"a(t) = ?\\ \\text{from } \\delta_s","latexBack":"a(t) = \\exp\\!\\left(\\int_{0}^{t}\\delta_s\\,ds\\right)","mnemonic":"Integrate the force, then exponentiate.","source":"ASM FM","tags":["interest","force","accumulation"],"confidence":"high"},{"id":"fm-int-012","type":"relationship","topic":"Interest & Discount","unit":2,"front":"Ordering of the equivalent annual rates d^(m), d, δ, i, i^(m)","back":"d < d^(m) < δ < i^(m) < i (for m > 1, i > 0); all measure the same growth over a year","latexFront":"\\text{Order: } d,\\ d^{(m)},\\ \\delta,\\ i^{(m)},\\ i","latexBack":"d < d^{(m)} < \\delta < i^{(m)} < i","mnemonic":"Discount rates below δ, interest rates above; more frequent compounding pulls toward δ.","source":"ASM FM","tags":["interest","ordering","force"],"confidence":"high"},{"id":"fm-int-013","type":"formula","topic":"Interest & Discount","unit":2,"front":"Simple interest accumulation function over t years at rate i","back":"a(t) = 1 + i·t (interest not earned on prior interest)","latexFront":"a(t) = ?\\ \\text{(simple interest)}","latexBack":"a(t) = 1 + i\\,t","mnemonic":"Linear growth, not exponential; force of interest decreases over time.","source":"ASM FM","tags":["interest","simple"],"confidence":"high"},{"id":"fm-tvm-001","type":"formula","topic":"Time Value of Money","unit":2,"front":"Present value of a single payment of amount C due in n periods at rate i","back":"PV = C·v^n = C/(1+i)^n","latexFront":"PV \\text{ of } C \\text{ at time } n","latexBack":"PV = C\\,v^n = \\dfrac{C}{(1+i)^n}","mnemonic":"Discount each future dollar back by v per period.","source":"ASM FM","tags":["tvm","present-value"],"confidence":"high"},{"id":"fm-tvm-002","type":"term","topic":"Time Value of Money","unit":2,"front":"Equation of value (definition)","back":"An equation setting the value of inflows equal to the value of outflows, all accumulated/discounted to a common comparison date; basis for solving for unknown rate, time, or payment.","latexFront":"\\text{Equation of value}","latexBack":"\\sum PV(\\text{inflows}) = \\sum PV(\\text{outflows}) \\text{ at one date}","mnemonic":"Pick one comparison date; everything migrates there.","source":"ASM FM","tags":["tvm","equation-of-value"],"confidence":"high"},{"id":"fm-tvm-003","type":"formula","topic":"Time Value of Money","unit":2,"front":"Rule of 72 (approximate doubling time)","back":"Time for money to double ≈ 72 / (100i); a quick mental estimate.","latexFront":"n_{\\text{double}} \\approx ?","latexBack":"n_{\\text{double}} \\approx \\dfrac{72}{100\\,i}","mnemonic":"Exact is ln 2 / ln(1+i); 72 is the handy approximation.","source":"ASM FM","tags":["tvm","approximation"],"confidence":"high"},{"id":"fm-ann-001","type":"formula","topic":"Annuities","unit":3,"front":"Present value of an annuity-immediate: n payments of 1 at end of each period","back":"a-angle-n = (1 - v^n)/i","latexFront":"a_{\\overline{n}\\rvert} = ?","latexBack":"a_{\\overline{n}\\rvert} = \\dfrac{1 - v^n}{i}","mnemonic":"Immediate = payments at period-end; divide the discount drop by i.","source":"ASM FM","tags":["annuity","immediate","present-value"],"confidence":"high"},{"id":"fm-ann-002","type":"formula","topic":"Annuities","unit":3,"front":"Accumulated value of an annuity-immediate: n payments of 1 at end of each period, valued at time n","back":"s-angle-n = ((1+i)^n - 1)/i","latexFront":"s_{\\overline{n}\\rvert} = ?","latexBack":"s_{\\overline{n}\\rvert} = \\dfrac{(1+i)^n - 1}{i}","mnemonic":"s-angle-n = a-angle-n · (1+i)^n (accumulate the PV forward).","source":"ASM FM","tags":["annuity","immediate","accumulated-value"],"confidence":"high"},{"id":"fm-ann-003","type":"formula","topic":"Annuities","unit":3,"front":"Present value of an annuity-due: n payments of 1 at start of each period","back":"ä-angle-n = (1 - v^n)/d = a-angle-n · (1+i)","latexFront":"\\ddot{a}_{\\overline{n}\\rvert} = ?","latexBack":"\\ddot{a}_{\\overline{n}\\rvert} = \\dfrac{1 - v^n}{d} = (1+i)\\,a_{\\overline{n}\\rvert}","mnemonic":"Due = paid one period earlier, so multiply immediate by (1+i); divide by d not i.","source":"ASM FM","tags":["annuity","due","present-value"],"confidence":"high"},{"id":"fm-ann-004","type":"formula","topic":"Annuities","unit":3,"front":"Accumulated value of an annuity-due: n payments of 1 at start of each period","back":"s̈-angle-n = ((1+i)^n - 1)/d = s-angle-n · (1+i)","latexFront":"\\ddot{s}_{\\overline{n}\\rvert} = ?","latexBack":"\\ddot{s}_{\\overline{n}\\rvert} = \\dfrac{(1+i)^n - 1}{d} = (1+i)\\,s_{\\overline{n}\\rvert}","mnemonic":"Due AV = immediate AV times (1+i); divide by d.","source":"ASM FM","tags":["annuity","due","accumulated-value"],"confidence":"high"},{"id":"fm-ann-005","type":"relationship","topic":"Annuities","unit":3,"front":"Link between annuity-due and annuity-immediate PVs (off-by-one identities)","back":"ä-angle-n = 1 + a-angle-(n-1); and a-angle-n = v + a-angle-(n-1) ... key identity: ä-angle-n = a-angle-n + 1 - v^n","latexFront":"\\ddot{a}_{\\overline{n}\\rvert} = 1 + ?","latexBack":"\\ddot{a}_{\\overline{n}\\rvert} = 1 + a_{\\overline{n-1}\\rvert}","mnemonic":"Due adds a payment at time 0 and drops the one at time n.","source":"ASM FM","tags":["annuity","identity"],"confidence":"high"},{"id":"fm-ann-006","type":"formula","topic":"Annuities","unit":4,"front":"Present value of an n-payment annuity-immediate deferred m periods (payments start at time m+1)","back":"v^m · a-angle-n = a-angle-(m+n) - a-angle-m","latexFront":"{}_{m\\rvert}a_{\\overline{n}\\rvert} = ?","latexBack":"{}_{m\\rvert}a_{\\overline{n}\\rvert} = v^{m}\\,a_{\\overline{n}\\rvert} = a_{\\overline{m+n}\\rvert} - a_{\\overline{m}\\rvert}","mnemonic":"Value the annuity, then discount m extra periods; or subtract the first-m-payments slice.","source":"ASM FM","tags":["annuity","deferred","present-value"],"confidence":"high"},{"id":"fm-ann-007","type":"formula","topic":"Annuities","unit":4,"front":"Present value of a perpetuity-immediate (level payments of 1 forever, end of period)","back":"a-angle-∞ = 1/i","latexFront":"a_{\\overline{\\infty}\\rvert} = ?","latexBack":"a_{\\overline{\\infty}\\rvert} = \\dfrac{1}{i}","mnemonic":"As n→∞, v^n→0, so (1 - v^n)/i → 1/i.","source":"ASM FM","tags":["perpetuity","immediate","present-value"],"confidence":"high"},{"id":"fm-ann-008","type":"formula","topic":"Annuities","unit":4,"front":"Present value of a perpetuity-due (level payments of 1 forever, start of period)","back":"ä-angle-∞ = 1/d","latexFront":"\\ddot{a}_{\\overline{\\infty}\\rvert} = ?","latexBack":"\\ddot{a}_{\\overline{\\infty}\\rvert} = \\dfrac{1}{d}","mnemonic":"Due perpetuity = immediate perpetuity + extra payment at time 0 = 1/i + 1 = 1/d.","source":"ASM FM","tags":["perpetuity","due","present-value"],"confidence":"high"},{"id":"fm-ann-009","type":"formula","topic":"Annuities","unit":4,"front":"Present value of an increasing annuity-immediate (Ia): payments 1, 2, ..., n","back":"(Ia)-angle-n = (ä-angle-n - n·v^n)/i","latexFront":"(Ia)_{\\overline{n}\\rvert} = ?","latexBack":"(Ia)_{\\overline{n}\\rvert} = \\dfrac{\\ddot{a}_{\\overline{n}\\rvert} - n\\,v^n}{i}","mnemonic":"Numerator uses the DUE annuity minus the final n·v^n; divide by i.","source":"ASM FM","tags":["annuity","increasing","present-value"],"confidence":"high"},{"id":"fm-ann-010","type":"formula","topic":"Annuities","unit":4,"front":"Present value of a decreasing annuity-immediate (Da): payments n, n-1, ..., 1","back":"(Da)-angle-n = (n - a-angle-n)/i","latexFront":"(Da)_{\\overline{n}\\rvert} = ?","latexBack":"(Da)_{\\overline{n}\\rvert} = \\dfrac{n - a_{\\overline{n}\\rvert}}{i}","mnemonic":"(Ia) + (Da) = (n+1)·a-angle-n; the decreasing version uses (n - a-angle-n).","source":"ASM FM","tags":["annuity","decreasing","present-value"],"confidence":"high"},{"id":"fm-ann-011","type":"formula","topic":"Annuities","unit":4,"front":"PV of a perpetuity-immediate with payments increasing by 1 each year (1, 2, 3, ...)","back":"(Ia)-angle-∞ = 1/i + 1/i^2 = (i+1)/i^2","latexFront":"(Ia)_{\\overline{\\infty}\\rvert} = ?","latexBack":"(Ia)_{\\overline{\\infty}\\rvert} = \\dfrac{1}{i} + \\dfrac{1}{i^{2}} = \\dfrac{1+i}{i^{2}}","mnemonic":"Limit of the increasing-annuity formula as n→∞.","source":"ASM FM","tags":["perpetuity","increasing","present-value"],"confidence":"high"},{"id":"fm-ann-012","type":"formula","topic":"Annuities","unit":4,"front":"PV of a geometric annuity-immediate: first payment 1, each subsequent payment grows by factor (1+g)","back":"PV = (1 - ((1+g)/(1+i))^n) / (i - g), for i ≠ g; equals n·v when i = g","latexFront":"PV_{\\text{geom}} = ?\\ (i\\neq g)","latexBack":"PV = \\dfrac{1 - \\left(\\frac{1+g}{1+i}\\right)^{n}}{i - g}","mnemonic":"It is a level annuity at the 'net rate' j where 1+j = (1+i)/(1+g).","source":"ASM FM","tags":["annuity","geometric","present-value"],"confidence":"high"},{"id":"fm-ann-013","type":"formula","topic":"Annuities","unit":4,"front":"PV of a geometric (growing) perpetuity-immediate: first payment 1, growth g, valuation rate i (i > g)","back":"PV = 1/(i - g)","latexFront":"PV_{\\text{geom perp}} = ?\\ (i > g)","latexBack":"PV = \\dfrac{1}{i - g}","mnemonic":"Gordon growth model; only converges when i > g.","source":"ASM FM","tags":["perpetuity","geometric","present-value"],"confidence":"high"},{"id":"fm-ann-014","type":"formula","topic":"Annuities","unit":5,"front":"PV of a continuous annuity paying at rate 1 per year for n years","back":"a-bar-angle-n = (1 - v^n)/δ","latexFront":"\\bar{a}_{\\overline{n}\\rvert} = ?","latexBack":"\\bar{a}_{\\overline{n}\\rvert} = \\dfrac{1 - v^n}{\\delta}","mnemonic":"Same numerator as a-angle-n, but divide by the force δ instead of i.","source":"ASM FM","tags":["annuity","continuous","present-value"],"confidence":"high"},{"id":"fm-ann-015","type":"formula","topic":"Annuities","unit":5,"front":"Accumulated value of a continuous annuity paying at rate 1 per year for n years","back":"s-bar-angle-n = ((1+i)^n - 1)/δ","latexFront":"\\bar{s}_{\\overline{n}\\rvert} = ?","latexBack":"\\bar{s}_{\\overline{n}\\rvert} = \\dfrac{(1+i)^n - 1}{\\delta}","mnemonic":"Continuous-payment analogue of s-angle-n; divide by δ.","source":"ASM FM","tags":["annuity","continuous","accumulated-value"],"confidence":"high"},{"id":"fm-ann-016","type":"formula","topic":"Annuities","unit":5,"front":"PV of a continuously increasing continuous annuity (payment rate t at time t) over n years","back":"(I-bar a-bar)-angle-n = (a-bar-angle-n - n·v^n)/δ","latexFront":"(\\bar{I}\\bar{a})_{\\overline{n}\\rvert} = ?","latexBack":"(\\bar{I}\\bar{a})_{\\overline{n}\\rvert} = \\dfrac{\\bar{a}_{\\overline{n}\\rvert} - n\\,v^n}{\\delta}","mnemonic":"Continuous analogue of (Ia): numerator uses a-bar, divide by δ.","source":"ASM FM","tags":["annuity","continuous","increasing"],"confidence":"check"},{"id":"fm-ann-017","type":"relationship","topic":"Annuities","unit":4,"front":"Sum identity linking increasing and decreasing annuities","back":"(Ia)-angle-n + (Da)-angle-n = (n + 1)·a-angle-n","latexFront":"(Ia)_{\\overline{n}\\rvert} + (Da)_{\\overline{n}\\rvert} = ?","latexBack":"(Ia)_{\\overline{n}\\rvert} + (Da)_{\\overline{n}\\rvert} = (n+1)\\,a_{\\overline{n}\\rvert}","mnemonic":"Each period's two payments sum to (n+1), a level (n+1) annuity.","source":"ASM FM","tags":["annuity","increasing","decreasing","identity"],"confidence":"high"},{"id":"fm-ann-018","type":"formula","topic":"Annuities","unit":5,"front":"PV of an annuity payable m-thly: n years of payments totaling 1 per year, paid 1/m at each m-th of a year (immediate)","back":"a-angle-n^(m) = (1 - v^n)/i^(m)","latexFront":"a^{(m)}_{\\overline{n}\\rvert} = ?","latexBack":"a^{(m)}_{\\overline{n}\\rvert} = \\dfrac{1 - v^n}{i^{(m)}}","mnemonic":"Same numerator; divide by the matching nominal rate i^(m).","source":"ASM FM","tags":["annuity","mthly","present-value"],"confidence":"high"},{"id":"fm-loan-001","type":"formula","topic":"Loans","unit":6,"front":"Outstanding loan balance after t payments — prospective method","back":"B_t = (level payment P) · a-angle-(n-t): present value of remaining payments","latexFront":"B_t^{\\text{pro}} = ?","latexBack":"B_t = P\\cdot a_{\\overline{n-t}\\rvert}","mnemonic":"Prospective = look forward; PV of payments still to be made.","source":"ASM FM","tags":["loan","outstanding-balance","prospective"],"confidence":"high"},{"id":"fm-loan-002","type":"formula","topic":"Loans","unit":6,"front":"Outstanding loan balance after t payments — retrospective method","back":"B_t = L·(1+i)^t - P·s-angle-t: original loan accumulated, minus payments accumulated","latexFront":"B_t^{\\text{retro}} = ?","latexBack":"B_t = L(1+i)^t - P\\cdot s_{\\overline{t}\\rvert}","mnemonic":"Retrospective = look back; accumulate loan, subtract accumulated payments.","source":"ASM FM","tags":["loan","outstanding-balance","retrospective"],"confidence":"high"},{"id":"fm-loan-003","type":"formula","topic":"Loans","unit":6,"front":"Interest portion of the t-th level loan payment (amortization)","back":"I_t = i · B_(t-1) = P·(1 - v^(n-t+1))","latexFront":"I_t = ?","latexBack":"I_t = i\\,B_{t-1} = P\\left(1 - v^{\\,n-t+1}\\right)","mnemonic":"Interest = rate × prior balance.","source":"ASM FM","tags":["loan","amortization","interest"],"confidence":"high"},{"id":"fm-loan-004","type":"formula","topic":"Loans","unit":6,"front":"Principal portion of the t-th level loan payment (amortization)","back":"P_t = P - I_t = P·v^(n-t+1)","latexFront":"P_t^{\\text{prin}} = ?","latexBack":"P_t = P - I_t = P\\,v^{\\,n-t+1}","mnemonic":"Principal repaid grows geometrically by (1+i) each period: P_(t+1) = P_t·(1+i).","source":"ASM FM","tags":["loan","amortization","principal"],"confidence":"high"},{"id":"fm-loan-005","type":"relationship","topic":"Loans","unit":6,"front":"How successive principal repayments behave in a level-payment amortized loan","back":"Principal repaid increases geometrically: P_(t+1) = P_t·(1+i); interest portions decrease.","latexFront":"P_{t+1} = ?\\,P_t","latexBack":"P_{t+1} = (1+i)\\,P_t","mnemonic":"Early payments are mostly interest; late payments mostly principal.","source":"ASM FM","tags":["loan","amortization"],"confidence":"high"},{"id":"fm-loan-006","type":"formula","topic":"Loans","unit":6,"front":"Sinking fund method: total periodic outlay when borrower pays lender interest at rate i and deposits into a sinking fund earning rate j","back":"Total = L·i (interest to lender) + L/s-angle-n at rate j (sinking-fund deposit)","latexFront":"\\text{Total outlay} = ?","latexBack":"L\\,i + \\dfrac{L}{s_{\\overline{n}\\rvert\\,j}}","mnemonic":"Pay the lender interest each period; separately accumulate the principal in a side fund.","source":"ASM FM","tags":["loan","sinking-fund"],"confidence":"high"},{"id":"fm-loan-007","type":"relationship","topic":"Loans","unit":6,"front":"Sinking fund: when does total cost equal a standard amortized loan?","back":"If the sinking fund rate j equals the loan rate i, the sinking-fund method and amortization give identical total periodic payments.","latexFront":"j = i \\Rightarrow ?","latexBack":"j = i \\Rightarrow \\text{sinking-fund payment} = \\text{amortization payment}","mnemonic":"Different rates is the whole point; equal rates collapse to amortization.","source":"ASM FM","tags":["loan","sinking-fund","amortization"],"confidence":"high"},{"id":"fm-bond-001","type":"formula","topic":"Bonds","unit":8,"front":"Basic bond price formula (general)","back":"P = F·r·a-angle-n + C·v^n, where Fr = coupon, C = redemption value, i = yield, n = number of coupons","latexFront":"P = ?","latexBack":"P = Fr\\,a_{\\overline{n}\\rvert} + C\\,v^{n}","mnemonic":"Price = PV of coupons + PV of redemption.","source":"ASM FM","tags":["bond","price"],"confidence":"high"},{"id":"fm-bond-002","type":"formula","topic":"Bonds","unit":8,"front":"Premium/discount bond price formula (rewrites price relative to redemption value C)","back":"P = C + (Fr - Ci)·a-angle-n; premium if Fr > Ci, discount if Fr < Ci","latexFront":"P = C + ?","latexBack":"P = C + (Fr - Ci)\\,a_{\\overline{n}\\rvert}","mnemonic":"Premium/discount = (coupon − yield-on-redemption) annuitized.","source":"ASM FM","tags":["bond","premium","discount","price"],"confidence":"high"},{"id":"fm-bond-003","type":"relationship","topic":"Bonds","unit":8,"front":"When is a bond priced at a premium vs. a discount?","back":"Premium (P > C) when coupon rate > yield rate (Fr > Ci). Discount (P < C) when coupon rate < yield rate. Par when equal.","latexFront":"\\text{Premium} \\iff ?","latexBack":"\\text{Premium} \\iff Fr > Ci \\quad(\\text{coupon} > \\text{yield})","mnemonic":"High coupon relative to market yield = you pay extra (premium).","source":"ASM FM","tags":["bond","premium","discount"],"confidence":"high"},{"id":"fm-bond-004","type":"formula","topic":"Bonds","unit":8,"front":"Write-up / write-down (amortization of premium or accumulation of discount) in coupon period t — amount of book value change","back":"Book value change in period t = (Fr - Ci)·v^(n-t+1); premium amortized down, discount accreted up","latexFront":"\\Delta BV_t = ?","latexBack":"\\text{Write-up}_t = (Fr - Ci)\\,v^{\\,n-t+1}","mnemonic":"Same geometric pattern as loan principal; negative for premium (write-down).","source":"ASM FM","tags":["bond","amortization","premium","discount"],"confidence":"high"},{"id":"fm-bond-005","type":"formula","topic":"Bonds","unit":8,"front":"Coupon split: interest earned vs. principal adjustment in coupon period t (premium bond)","back":"Interest earned = i·B_(t-1); amount of premium amortized = coupon − interest earned = Fr − i·B_(t-1)","latexFront":"\\text{Premium amortized}_t = ?","latexBack":"Fr - i\\,B_{t-1}","mnemonic":"Coupon = interest at yield + return of premium; mirrors loan amortization.","source":"ASM FM","tags":["bond","amortization","premium"],"confidence":"high"},{"id":"fm-bond-006","type":"formula","topic":"Bonds","unit":8,"front":"Makeham's formula for bond price","back":"P = K + (g/i)·(C - K), where K = C·v^n (PV of redemption) and g = Fr/C (modified coupon rate)","latexFront":"P = K + ?","latexBack":"P = K + \\dfrac{g}{i}\\,(C - K),\\quad K = C v^{n},\\ g = \\dfrac{Fr}{C}","mnemonic":"Splits price into PV of redemption (K) plus PV of coupon stream expressed via g/i.","source":"ASM FM","tags":["bond","makeham","price"],"confidence":"high"},{"id":"fm-bond-007","type":"relationship","topic":"Bonds","unit":9,"front":"Callable bond pricing logic (how to price to guarantee a minimum yield)","back":"Price the bond at every possible call/redemption date at the desired yield and take the LOWEST price. Rule of thumb: if priced at a premium, assume the EARLIEST call date; if at a discount, assume the LATEST date.","latexFront":"P_{\\text{callable}} = ?","latexBack":"P_{\\text{callable}} = \\min_{\\text{call dates}} P(\\text{date})","mnemonic":"Issuer calls when it benefits them; price defensively at the worst-case (lowest-price) date.","source":"ASM FM","tags":["bond","callable","price"],"confidence":"high"},{"id":"fm-bond-008","type":"term","topic":"Bonds","unit":8,"front":"Modified coupon rate g (definition, in bond notation)","back":"g = Fr/C: the coupon amount expressed as a rate on the redemption value C (rather than on face F). Equal to the coupon rate r when C = F.","latexFront":"g = ?","latexBack":"g = \\dfrac{Fr}{C}","mnemonic":"g rebases the coupon onto C; used in Makeham and premium/discount analysis.","source":"ASM FM","tags":["bond","definition","makeham"],"confidence":"high"},{"id":"fm-bond-009","type":"formula","topic":"Bonds","unit":9,"front":"Price of a bond between coupon dates: dirty (full) price t into a coupon period (theoretical/semi-theoretical)","back":"Dirty price = B_t·(1+i)^t; clean price = dirty price − accrued coupon (Fr·t under practical/linear method)","latexFront":"P_{\\text{dirty}} = ?","latexBack":"P_{\\text{dirty}} = B_t (1+i)^{t},\\quad P_{\\text{clean}} = P_{\\text{dirty}} - \\text{accrued}","mnemonic":"Dirty = clean + accrued interest; quotes are usually clean.","source":"ASM FM","tags":["bond","accrued","clean","dirty"],"confidence":"check"},{"id":"fm-cf-001","type":"term","topic":"Cash Flows & Yield","unit":10,"front":"Yield rate (internal rate of return) of a series of cash flows — definition","back":"The rate i that makes the net present value of all cash flows (in and out) equal to zero.","latexFront":"\\text{IRR}: \\ ?","latexBack":"\\sum_{t} C_t\\,(1+i)^{-t} = 0","mnemonic":"Set NPV = 0 and solve for i.","source":"ASM FM","tags":["cash-flow","yield","irr"],"confidence":"high"},{"id":"fm-cf-002","type":"formula","topic":"Cash Flows & Yield","unit":10,"front":"Net present value (NPV) of a project's cash flows at rate i","back":"NPV = Σ C_t·v^t (positive inflows, negative outflows); accept project if NPV ≥ 0","latexFront":"NPV = ?","latexBack":"NPV = \\sum_{t} C_t\\,v^{t} = \\sum_{t} \\dfrac{C_t}{(1+i)^{t}}","mnemonic":"Discount every cash flow to time 0 and sum.","source":"ASM FM","tags":["cash-flow","npv"],"confidence":"high"},{"id":"fm-cf-003","type":"term","topic":"Cash Flows & Yield","unit":10,"front":"Dollar-weighted vs. time-weighted rate of return (distinction)","back":"Dollar-weighted = IRR over the period, sensitive to timing/size of deposits & withdrawals (approx: I / (A + contributions weighted by time)). Time-weighted = product of (1 + sub-period returns) − 1, removes the effect of cash-flow timing.","latexFront":"\\text{DW vs TW}","latexBack":"1+i_{TW} = \\prod_k (1 + j_k)","mnemonic":"Time-weighted chains sub-period returns (fund-manager skill); dollar-weighted is the actual IRR.","source":"ASM FM","tags":["cash-flow","yield","dollar-weighted","time-weighted"],"confidence":"high"},{"id":"fm-cf-004","type":"formula","topic":"Cash Flows & Yield","unit":10,"front":"Dollar-weighted (simple-interest approximation) rate of return over a year","back":"i ≈ I / (A + Σ C_t·(1 - t)), where A = beginning balance, I = interest earned, C_t = net deposit at time t (fraction of year)","latexFront":"i \\approx \\dfrac{I}{?}","latexBack":"i \\approx \\dfrac{I}{A + \\sum_t C_t(1-t)}","mnemonic":"Weight each deposit by the fraction of the year it was invested.","source":"ASM FM","tags":["cash-flow","dollar-weighted"],"confidence":"check"},{"id":"fm-rate-001","type":"term","topic":"Spot & Forward Rates","unit":10,"front":"Spot rate s_t (definition)","back":"The annualized yield on a zero-coupon bond / single payment maturing at time t; the rate used to discount a single cash flow at time t: PV = C/(1 + s_t)^t.","latexFront":"s_t: \\ PV = ?","latexBack":"PV = \\dfrac{C}{(1+s_t)^{t}}","mnemonic":"Spot = today's rate locked in for a single maturity t.","source":"ASM FM","tags":["spot-rate","term-structure"],"confidence":"high"},{"id":"fm-rate-002","type":"formula","topic":"Spot & Forward Rates","unit":10,"front":"Relationship between spot rates and the (one-period) forward rate from time t to t+1","back":"(1 + s_(t+1))^(t+1) = (1 + s_t)^t · (1 + f_(t,t+1))","latexFront":"(1+s_{t+1})^{t+1} = ?","latexBack":"(1+s_{t+1})^{t+1} = (1+s_t)^{t}\\,(1 + f_{t,t+1})","mnemonic":"No-arbitrage: investing to t+1 directly = investing to t then rolling forward one period.","source":"ASM FM","tags":["spot-rate","forward-rate","term-structure"],"confidence":"high"},{"id":"fm-rate-003","type":"formula","topic":"Spot & Forward Rates","unit":10,"front":"General forward rate over the interval [t, t+k] derived from spot rates","back":"(1 + f_(t, t+k))^k = (1 + s_(t+k))^(t+k) / (1 + s_t)^t","latexFront":"(1+f_{t,t+k})^{k} = ?","latexBack":"(1+f_{t,t+k})^{k} = \\dfrac{(1+s_{t+k})^{t+k}}{(1+s_t)^{t}}","mnemonic":"Forward = ratio of long accumulation to short accumulation, annualized over k.","source":"ASM FM","tags":["forward-rate","spot-rate","term-structure"],"confidence":"high"},{"id":"fm-dur-001","type":"formula","topic":"Duration & Immunization","unit":11,"front":"Macaulay duration of a series of cash flows","back":"D_Mac = (Σ t·C_t·v^t) / (Σ C_t·v^t): PV-weighted average time of the cash flows","latexFront":"D_{\\text{Mac}} = ?","latexBack":"D_{\\text{Mac}} = \\dfrac{\\sum_t t\\,C_t\\,v^{t}}{\\sum_t C_t\\,v^{t}}","mnemonic":"Weighted-average maturity, weights = each cash flow's share of PV.","source":"ASM FM","tags":["duration","macaulay"],"confidence":"high"},{"id":"fm-dur-002","type":"formula","topic":"Duration & Immunization","unit":11,"front":"Modified duration and its relation to Macaulay duration","back":"D_mod = -P'(i)/P(i) = D_Mac/(1+i) = D_Mac·v","latexFront":"D_{\\text{mod}} = ?","latexBack":"D_{\\text{mod}} = \\dfrac{D_{\\text{Mac}}}{1+i} = -\\dfrac{P'(i)}{P(i)}","mnemonic":"Modified = Macaulay discounted one period; it is the sensitivity dP/P per unit i.","source":"ASM FM","tags":["duration","modified","macaulay"],"confidence":"high"},{"id":"fm-dur-003","type":"formula","topic":"Duration & Immunization","unit":11,"front":"First-order price-change approximation using modified duration","back":"ΔP ≈ -P·D_mod·Δi; i.e. P(i + Δi) ≈ P(i)·(1 - D_mod·Δi)","latexFront":"\\Delta P \\approx ?","latexBack":"\\Delta P \\approx -P\\,D_{\\text{mod}}\\,\\Delta i","mnemonic":"Price falls (approximately linearly) as rates rise; slope is modified duration.","source":"ASM FM","tags":["duration","modified","approximation"],"confidence":"high"},{"id":"fm-dur-004","type":"formula","topic":"Duration & Immunization","unit":11,"front":"Macaulay duration of a level perpetuity-immediate","back":"D_Mac = (1+i)/i","latexFront":"D_{\\text{Mac}}(\\text{perpetuity}) = ?","latexBack":"D_{\\text{Mac}} = \\dfrac{1+i}{i}","mnemonic":"A handy closed form often tested directly.","source":"ASM FM","tags":["duration","macaulay","perpetuity"],"confidence":"high"},{"id":"fm-dur-005","type":"formula","topic":"Duration & Immunization","unit":11,"front":"Macaulay convexity of a series of cash flows","back":"C_Mac = (Σ t^2·C_t·v^t)/(Σ C_t·v^t): PV-weighted average of t^2","latexFront":"C_{\\text{Mac}} = ?","latexBack":"C_{\\text{Mac}} = \\dfrac{\\sum_t t^{2}\\,C_t\\,v^{t}}{\\sum_t C_t\\,v^{t}}","mnemonic":"Like duration but weight by t-squared; captures curvature.","source":"ASM FM","tags":["convexity","macaulay"],"confidence":"check"},{"id":"fm-dur-006","type":"formula","topic":"Duration & Immunization","unit":11,"front":"Modified convexity (definition via second derivative of price)","back":"C_mod = P''(i)/P(i)","latexFront":"C_{\\text{mod}} = ?","latexBack":"C_{\\text{mod}} = \\dfrac{P''(i)}{P(i)}","mnemonic":"Second-order term; improves the duration-only price approximation.","source":"ASM FM","tags":["convexity","modified"],"confidence":"check"},{"id":"fm-dur-007","type":"formula","topic":"Duration & Immunization","unit":11,"front":"Second-order (duration + convexity) price-change approximation","back":"ΔP ≈ -P·D_mod·Δi + (1/2)·P·C_mod·(Δi)^2","latexFront":"\\Delta P \\approx ?\\ \\text{(2nd order)}","latexBack":"\\Delta P \\approx -P\\,D_{\\text{mod}}\\,\\Delta i + \\tfrac{1}{2}P\\,C_{\\text{mod}}\\,(\\Delta i)^2","mnemonic":"Taylor expansion of P(i): linear duration term + quadratic convexity term.","source":"ASM FM","tags":["convexity","duration","approximation"],"confidence":"high"},{"id":"fm-imm-001","type":"relationship","topic":"Duration & Immunization","unit":12,"front":"Redington immunization — the three conditions","back":"1) PV(assets) = PV(liabilities). 2) Duration of assets = duration of liabilities (equivalently P'_A = P'_L). 3) Convexity of assets > convexity of liabilities (P''_A > P''_L).","latexFront":"\\text{Redington: 3 conditions}","latexBack":"PV_A = PV_L,\\quad D_A = D_L,\\quad C_A > C_L","mnemonic":"Match value, match duration (slope), out-convex the liabilities (curvature) — protects against small rate moves.","source":"ASM FM","tags":["immunization","redington"],"confidence":"high"},{"id":"fm-imm-002","type":"term","topic":"Duration & Immunization","unit":12,"front":"Full (exact / dedication) immunization vs. Redington immunization","back":"Full immunization protects against rate changes of ANY size, typically by surrounding each liability with one asset cash flow before and one after (matched in PV and duration). Redington protects only against SMALL changes (local condition).","latexFront":"\\text{Full vs Redington}","latexBack":"\\text{Full: any } \\Delta i;\\quad \\text{Redington: small } \\Delta i","mnemonic":"Full = global protection (bracket each liability); Redington = local protection.","source":"ASM FM","tags":["immunization","full","redington"],"confidence":"high"},{"id":"fm-imm-003","type":"term","topic":"Duration & Immunization","unit":12,"front":"Cash-flow matching (dedication) — definition","back":"Constructing an asset portfolio whose cash inflows exactly match the timing and amount of each liability outflow, eliminating interest-rate risk entirely without relying on duration/convexity conditions.","latexFront":"\\text{Cash-flow matching}","latexBack":"\\text{asset CF}_t = \\text{liability CF}_t \\ \\forall t","mnemonic":"The brute-force, zero-reinvestment-risk approach.","source":"ASM FM","tags":["immunization","cash-flow-matching","dedication"],"confidence":"high"}];
+
+/* ---------- Storage keys ---------- */
+const LS_STATE = "asm_fm_srs_b_state_v1";
+const LS_META  = "asm_fm_srs_b_meta_v1";
+
+/* ============================================================
+   FSRS v4 scheduler
+   Reference default weights (w0..w18). Grades: 1 Again, 2 Hard, 3 Good, 4 Easy.
+   ============================================================ */
+const FSRS = (() => {
+  const w = [0.4072,1.1829,3.1262,15.4722,7.2102,0.5316,1.0651,0.0234,1.616,
+             0.1544,1.0824,1.9813,0.0953,0.2975,2.2042,0.2407,2.9466,0.5034,0.6567];
+  const DECAY = -0.5;
+  const FACTOR = Math.pow(0.9, 1/DECAY) - 1; // = 19/81 region; derived from 0.9 target retention
+  const REQUEST_RETENTION = 0.9;
+  const MAX_INTERVAL = 36500;
+
+  const clampD = d => Math.min(Math.max(d, 1), 10);
+
+  function initStability(g){ return Math.max(w[g-1], 0.1); }
+  function initDifficulty(g){ return clampD(w[4] - Math.exp(w[5]*(g-1)) + 1); }
+
+  function nextInterval(stability){
+    const ivl = (stability / FACTOR) * (Math.pow(REQUEST_RETENTION, 1/DECAY) - 1);
+    return Math.min(Math.max(Math.round(ivl), 1), MAX_INTERVAL);
+  }
+  function retrievability(elapsedDays, stability){
+    return Math.pow(1 + FACTOR * elapsedDays / stability, DECAY);
+  }
+  function nextDifficulty(d, g){
+    const dd = d - w[6]*(g-3);
+    // mean reversion toward difficulty for grade 4 ("Easy" baseline)
+    return clampD(w[7]*initDifficulty(4) + (1-w[7])*dd);
+  }
+  function nextRecallStability(d, s, r, g){
+    const hardPenalty = g===2 ? w[15] : 1;
+    const easyBonus   = g===4 ? w[16] : 1;
+    return s * (1 + Math.exp(w[8]) * (11 - d) * Math.pow(s, -w[9]) *
+           (Math.exp(w[10]*(1-r)) - 1) * hardPenalty * easyBonus);
+  }
+  function nextForgetStability(d, s, r){
+    return w[11] * Math.pow(d, -w[12]) * (Math.pow(s+1, w[13]) - 1) * Math.exp(w[14]*(1-r));
+  }
+
+  // card.fsrs = {stability, difficulty, reps, lapses, lastReview(ISO), state}
+  // state: "new" | "review"
+  function schedule(card, grade, now){
+    const f = card.fsrs || {};
+    let stability, difficulty;
+    const isNew = !f.state || f.state === "new";
+
+    if(isNew){
+      stability  = initStability(grade);
+      difficulty = initDifficulty(grade);
+    } else {
+      const elapsedMs = now - new Date(f.lastReview).getTime();
+      const elapsedDays = Math.max(elapsedMs / 86400000, 0);
+      const r = retrievability(elapsedDays, f.stability);
+      difficulty = nextDifficulty(f.difficulty, grade);
+      if(grade === 1){
+        stability = Math.min(nextForgetStability(f.difficulty, f.stability, r), f.stability);
+      } else {
+        stability = nextRecallStability(f.difficulty, f.stability, r, grade);
+      }
+    }
+
+    const reps   = (f.reps || 0) + 1;
+    const lapses = (f.lapses || 0) + (grade === 1 ? 1 : 0);
+    let intervalDays = nextInterval(stability);
+    // Same-day handling: "Again" comes back today; learning steps stay short.
+    if(grade === 1) intervalDays = 0;
+
+    const due = new Date(now + intervalDays * 86400000).toISOString();
+
+    return {
+      stability, difficulty, reps, lapses,
+      state: "review",
+      lastReview: new Date(now).toISOString(),
+      due,
+      intervalDays
+    };
+  }
+
+  // Preview interval label without committing
+  function previewInterval(card, grade, now){
+    const r = schedule(JSON.parse(JSON.stringify(card)), grade, now);
+    return r.intervalDays;
+  }
+
+  return { schedule, previewInterval };
+})();
+
+/* ============================================================
+   App state
+   ============================================================ */
+let DECK = [];
+let STATE = {};   // id -> fsrs object
+let META  = { streak:0, lastStudyDay:null, reviewsToday:0, todayKey:null };
+let queue = [];
+let current = null;
+let revealed = false;
+
+function todayKey(d=new Date()){
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function startOfTomorrow(){
+  const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()+1); return d.getTime();
+}
+function loadStorage(){
+  try{ STATE = JSON.parse(localStorage.getItem(LS_STATE)) || {}; }catch(e){ STATE = {}; }
+  try{ META  = Object.assign(META, JSON.parse(localStorage.getItem(LS_META)) || {}); }catch(e){}
+}
+function saveStorage(){
+  localStorage.setItem(LS_STATE, JSON.stringify(STATE));
+  localStorage.setItem(LS_META, JSON.stringify(META));
+}
+
+/* ---------- Streak bookkeeping ---------- */
+function touchStreakOnReview(){
+  const tk = todayKey();
+  if(META.todayKey !== tk){ META.todayKey = tk; META.reviewsToday = 0; }
+  if(META.lastStudyDay !== tk){
+    // figure out if yesterday was the last study day
+    const y = new Date(); y.setDate(y.getDate()-1);
+    if(META.lastStudyDay === todayKey(y)) META.streak = (META.streak||0)+1;
+    else META.streak = 1;
+    META.lastStudyDay = tk;
+  }
+  META.reviewsToday = (META.reviewsToday||0)+1;
+}
+function resetDailyCountIfNeeded(){
+  const tk = todayKey();
+  if(META.todayKey !== tk){ META.todayKey = tk; META.reviewsToday = 0; }
+}
+
+/* ============================================================
+   Deck loading
+   ============================================================ */
+async function loadDeck(){
+  const note = document.getElementById("srcNote");
+  try{
+    const res = await fetch("formulas.json", {cache:"no-store"});
+    if(res.ok){
+      const data = await res.json();
+      const cards = Array.isArray(data) ? data : (data.cards || []);
+      if(cards.length){
+        DECK = cards.map(normalizeCard);
+        note.textContent = "Loaded "+DECK.length+" cards from formulas.json.";
+        return;
+      }
+    }
+    throw new Error("empty or unreachable");
+  }catch(e){
+    DECK = FULL_DECK.map(normalizeCard);
+    note.textContent = "Using the built-in deck ("+DECK.length+" cards).";
+  }
+}
+function normalizeCard(c, i){
+  return {
+    id: c.id || ("card-"+i),
+    type: c.type || "formula",
+    topic: c.topic || "General",
+    front: c.front || "",
+    back: c.back || "",
+    latexFront: c.latexFront || "",
+    latexBack: c.latexBack || "",
+    mnemonic: c.mnemonic || "",
+    unit: (typeof c.unit === "number" ? c.unit : null),
+    tags: c.tags || []
+  };
+}
+
+/* ============================================================
+   Queue building
+   ============================================================ */
+function selectedTopic(){ return document.getElementById("topicFilter").value; }
+
+function selectedUnit(){
+  const v = document.getElementById("unitFilter").value;
+  return v === "__all__" ? null : parseInt(v, 10);
+}
+function unitPool(){
+  const topic = selectedTopic();
+  const unit = selectedUnit();
+  return DECK.filter(c =>
+    (topic === "__all__" || c.topic === topic) &&
+    (unit === null || c.unit === null || c.unit <= unit));
+}
+function buildQueue(){
+  const now = Date.now();
+  const unit = selectedUnit();
+  const pool = unitPool();
+
+  const due = [];
+  const fresh = [];
+  for(const c of pool){
+    const f = STATE[c.id];
+    if(!f || !f.state || f.state === "new"){ fresh.push(c); }
+    else if(new Date(f.due).getTime() <= now){ due.push(c); }
+  }
+  // due cards first (earliest due), then a cap of new cards
+  due.sort((a,b)=> new Date(STATE[a.id].due) - new Date(STATE[b.id].due));
+  // introduce the current week's new cards before older backlog
+  if(unit !== null) fresh.sort((a,b)=> (b.unit===unit) - (a.unit===unit));
+  const NEW_CAP = 20;
+  queue = due.concat(fresh.slice(0, NEW_CAP));
+}
+
+/* ============================================================
+   Stats
+   ============================================================ */
+function computeStats(){
+  const now = Date.now();
+  const pool = unitPool();
+  let due=0, learned=0, fresh=0;
+  for(const c of pool){
+    const f = STATE[c.id];
+    if(!f || !f.state || f.state==="new"){ fresh++; }
+    else{
+      if(f.stability >= 21) learned++;          // "learned" = stability >= ~3 weeks
+      if(new Date(f.due).getTime() <= now) due++;
+    }
+  }
+  document.getElementById("sDue").textContent = due + queueRemainderNew(pool, now);
+  document.getElementById("sLearned").textContent = learned;
+  document.getElementById("sNew").textContent = fresh;
+  document.getElementById("sTotal").textContent = pool.length;
+  document.getElementById("sStreak").textContent = META.streak || 0;
+}
+function queueRemainderNew(pool, now){
+  // count new cards that would enter today's queue (cap 20)
+  let fresh = pool.filter(c=>{ const f=STATE[c.id]; return !f||!f.state||f.state==="new"; }).length;
+  return Math.min(fresh, 20);
+}
+
+/* ============================================================
+   Rendering
+   ============================================================ */
+function renderMath(el, latex){
+  if(!latex){ el.style.display="none"; return; }
+  el.style.display="";
+  try{
+    katex.render(latex, el, {throwOnError:false, displayMode:true});
+  }catch(e){
+    el.textContent = latex;
+  }
+}
+
+function renderCard(){
+  const study = document.getElementById("study");
+  if(!current){
+    study.innerHTML = '<div class="empty"><h2>All caught up</h2><p>No cards are due right now for this topic. Come back later, switch topics, or your scheduled cards will return on their due dates.</p></div>';
+    return;
+  }
+  const c = current;
+  study.innerHTML = `
+    <div class="card" tabindex="0" id="cardEl" role="group" aria-label="Flashcard">
+      <div class="meta">
+        <span class="pill">${escapeHtml(c.topic)}</span>
+        <span class="pill type">${escapeHtml(c.type)}</span>
+        ${c.tags.map(t=>`<span class="pill type">${escapeHtml(t)}</span>`).join("")}
+      </div>
+      <div class="face">
+        <div class="prompt-label">Front</div>
+        <div class="text" id="frontText"></div>
+        <div class="math" id="frontMath"></div>
+      </div>
+      <div id="backZone" style="display:none">
+        <hr class="divider">
+        <div class="face">
+          <div class="prompt-label">Back</div>
+          <div class="text" id="backText"></div>
+          <div class="math" id="backMath"></div>
+          <div class="mnemonic" id="mnem" style="display:none"></div>
+        </div>
+      </div>
+      <div class="actions" id="actions"></div>
+    </div>`;
+
+  document.getElementById("frontText").textContent = c.front || "";
+  if(!c.front) document.getElementById("frontText").style.display="none";
+  renderMath(document.getElementById("frontMath"), c.latexFront);
+
+  renderActions();
+}
+
+function renderActions(){
+  const a = document.getElementById("actions");
+  if(!revealed){
+    a.innerHTML = `<button class="reveal-btn" id="revealBtn">Reveal answer <span class="kbd">(Space)</span></button>`;
+    document.getElementById("revealBtn").onclick = reveal;
+  } else {
+    const now = Date.now();
+    const labels = [
+      {g:1,cls:"again",name:"Again"},
+      {g:2,cls:"hard",name:"Hard"},
+      {g:3,cls:"good",name:"Good"},
+      {g:4,cls:"easy",name:"Easy"}
+    ];
+    a.innerHTML = `<div class="grades">` + labels.map(L=>{
+      const ivl = FSRS.previewInterval({fsrs: STATE[current.id]}, L.g, now);
+      return `<button class="grade ${L.cls}" data-g="${L.g}">
+        <span>${L.name}</span>
+        <span class="ivl">${fmtInterval(ivl)}</span>
+        <span class="kbd">${L.g}</span>
+      </button>`;
+    }).join("") + `</div>`;
+    a.querySelectorAll(".grade").forEach(btn=>{
+      btn.onclick = ()=> grade(parseInt(btn.dataset.g,10));
+    });
+  }
+}
+
+function fmtInterval(days){
+  if(days <= 0) return "< 10m";
+  if(days === 1) return "1 day";
+  if(days < 30) return days+" days";
+  if(days < 365){ const m=Math.round(days/30); return m+" mo"; }
+  const y=(days/365); return (y<10? y.toFixed(1):Math.round(y))+" yr";
+}
+
+function reveal(){
+  if(revealed || !current) return;
+  revealed = true;
+  const bz = document.getElementById("backZone");
+  bz.style.display="";
+  document.getElementById("backText").textContent = current.back || "";
+  if(!current.back) document.getElementById("backText").style.display="none";
+  if(current.latexBack) document.getElementById("backText").classList.add("sub");
+  renderMath(document.getElementById("backMath"), current.latexBack);
+  if(current.mnemonic){
+    const m = document.getElementById("mnem");
+    m.style.display="";
+    m.innerHTML = "<b>Memory aid:</b> " + escapeHtml(current.mnemonic);
+  }
+  renderActions();
+}
+
+function grade(g){
+  if(!revealed || !current) return;
+  const now = Date.now();
+  STATE[current.id] = FSRS.schedule({fsrs: STATE[current.id]}, g, now);
+  touchStreakOnReview();
+  saveStorage();
+
+  // "Again" => requeue near the end of this session
+  if(g === 1){ queue.push(current); }
+
+  advance();
+}
+
+function advance(){
+  revealed = false;
+  current = queue.shift() || null;
+  // skip cards that are no longer due (e.g. just-scheduled long intervals already removed)
+  renderCard();
+  computeStats();
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+/* ============================================================
+   Topic filter
+   ============================================================ */
+function populateUnits(){
+  const sel = document.getElementById("unitFilter");
+  const units = Array.from(new Set(DECK.map(c=>c.unit).filter(u=>u!==null))).sort((a,b)=>a-b);
+  sel.innerHTML = `<option value="__all__">All weeks</option>` +
+    units.map(u=>`<option value="${u}">Through Week ${u}</option>`).join("");
+  const param = new URLSearchParams(location.search).get("unit");
+  if(param && units.includes(parseInt(param,10))) sel.value = String(parseInt(param,10));
+  sel.onchange = ()=>{ startSession(); };
+}
+function populateTopics(){
+  const sel = document.getElementById("topicFilter");
+  const topics = Array.from(new Set(DECK.map(c=>c.topic))).sort();
+  sel.innerHTML = `<option value="__all__">All topics (${DECK.length})</option>` +
+    topics.map(t=>{
+      const n = DECK.filter(c=>c.topic===t).length;
+      return `<option value="${escapeHtml(t)}">${escapeHtml(t)} (${n})</option>`;
+    }).join("");
+  sel.onchange = ()=>{ startSession(); };
+}
+
+/* ============================================================
+   Export / Import / Reset
+   ============================================================ */
+function exportProgress(){
+  const payload = {
+    app:"asm-fm-srs-candidate-b", version:1,
+    exportedAt:new Date().toISOString(),
+    meta:META, state:STATE
+  };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "fm-flashcards-progress.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  toast("Progress exported.");
+}
+function importProgress(file){
+  const reader = new FileReader();
+  reader.onload = e=>{
+    try{
+      const data = JSON.parse(e.target.result);
+      if(data.state && typeof data.state==="object"){
+        STATE = data.state;
+        if(data.meta) META = Object.assign(META, data.meta);
+        saveStorage();
+        startSession();
+        toast("Progress imported.");
+      } else { toast("File is not valid progress JSON."); }
+    }catch(err){ toast("Could not read that file."); }
+  };
+  reader.readAsText(file);
+}
+function resetProgress(){
+  if(!confirm("Reset all scheduling and stats? Your card content is unaffected.")) return;
+  STATE = {}; META = { streak:0, lastStudyDay:null, reviewsToday:0, todayKey:null };
+  saveStorage(); startSession(); toast("Progress reset.");
+}
+
+let toastTimer=null;
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove("show"), 2200);
+}
+
+/* ============================================================
+   Keyboard
+   ============================================================ */
+document.addEventListener("keydown", e=>{
+  if(e.target.tagName === "SELECT" || e.target.tagName === "INPUT") return;
+  if(!current) return;
+  if(e.code === "Space"){
+    e.preventDefault();
+    if(!revealed) reveal();
+  } else if(["1","2","3","4"].includes(e.key)){
+    if(revealed){ e.preventDefault(); grade(parseInt(e.key,10)); }
+  }
+});
+
+/* ============================================================
+   Session start / init
+   ============================================================ */
+function startSession(){
+  resetDailyCountIfNeeded();
+  buildQueue();
+  revealed = false;
+  current = queue.shift() || null;
+  renderCard();
+  computeStats();
+}
+
+function waitForKatex(maxMs=8000){
+  return new Promise(resolve=>{
+    if(window.katex) return resolve();
+    const t0=Date.now();
+    const iv=setInterval(()=>{
+      if(window.katex || Date.now()-t0>maxMs){ clearInterval(iv); resolve(); }
+    },50);
+  });
+}
+
+async function init(){
+  loadStorage();
+  await waitForKatex();
+  await loadDeck();
+  document.getElementById("deckCount").textContent = DECK.length + " cards loaded.";
+  populateUnits();
+  populateTopics();
+
+  document.getElementById("btnExport").onclick = exportProgress;
+  document.getElementById("btnImport").onclick = ()=> document.getElementById("fileInput").click();
+  document.getElementById("fileInput").onchange = e=>{ if(e.target.files[0]) importProgress(e.target.files[0]); e.target.value=""; };
+  document.getElementById("btnReset").onclick = resetProgress;
+
+  startSession();
+}
+
+// KaTeX is loaded with `defer`; wait for window load so katex.render is defined.
+window.addEventListener("load", init);
+</script>
+</body>
+</html>
