@@ -135,6 +135,16 @@
     <div class="stat"><div class="num" id="sStreak">0</div><div class="lbl">Day streak</div></div>
   </section>
 
+  <div id="firstRun" style="display:none; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px 22px; margin-bottom:18px">
+    <h2 style="margin:0 0 8px; font-size:1.05rem">How this works (15 seconds)</h2>
+    <ol style="margin:0 0 14px 18px; padding:0; line-height:1.6">
+      <li><b>Try to recall</b> the formula before you reveal it.</li>
+      <li><b>Grade yourself honestly</b> with the four buttons. The schedule adapts: cards you know fade back, cards you fumble return soon.</li>
+      <li><b>Come back most days.</b> Five minutes a day is the whole job; the Due count is your to-do list.</li>
+    </ol>
+    <p style="margin:0 0 14px; color:var(--ink-soft); font-size:.85rem">Your progress saves automatically in this browser, with nothing to set up. Just use the same device each time.</p>
+    <button class="reveal-btn" id="firstRunGo" style="width:auto; padding:10px 22px">Start</button>
+  </div>
   <div class="controls">
     <label class="field">Course week
       <select id="unitFilter" aria-label="Cards introduced through this course week"></select>
@@ -143,9 +153,14 @@
       <select id="topicFilter" aria-label="Filter by topic"></select>
     </label>
     <div class="spacer"></div>
-    <button class="btn-ghost" id="btnExport">Export progress</button>
-    <button class="btn-ghost" id="btnImport">Import progress</button>
-    <button class="btn-ghost" id="btnReset" title="Reset all scheduling">Reset</button>
+    <details style="font-size:.82rem; color:var(--ink-soft)"><summary style="cursor:pointer; padding:9px 12px">Settings</summary>
+      <div style="display:flex; gap:8px; padding:8px 0; flex-wrap:wrap">
+        <button class="btn-ghost" id="btnExport" title="Save your progress as a small file (only needed if you switch devices)">Export progress</button>
+        <button class="btn-ghost" id="btnImport" title="Load progress from an exported file">Import progress</button>
+        <button class="btn-ghost" id="btnReset" title="Reset all scheduling">Reset</button>
+      </div>
+      <p style="margin:0; max-width:46em">Progress saves automatically in this browser. Export and Import exist only for permanently switching devices.</p>
+    </details>
     <input type="file" id="fileInput" accept="application/json" hidden>
   </div>
 
@@ -651,6 +666,14 @@ async function init(){
   document.getElementById("btnImport").onclick = ()=> document.getElementById("fileInput").click();
   document.getElementById("fileInput").onchange = e=>{ if(e.target.files[0]) importProgress(e.target.files[0]); e.target.value=""; };
   document.getElementById("btnReset").onclick = resetProgress;
+  // first-run overlay until the first self-grade
+  if(!localStorage.getItem(LS_META) && !localStorage.getItem("asm_fm_seen_intro")){
+    document.getElementById("firstRun").style.display = "";
+  }
+  document.getElementById("firstRunGo").onclick = ()=>{
+    localStorage.setItem("asm_fm_seen_intro","1");
+    document.getElementById("firstRun").style.display = "none";
+  };
 
   startSession();
 }
