@@ -15,7 +15,8 @@
    "compound",
    "accumulation"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-002",
@@ -33,7 +34,8 @@
    "discount",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-003",
@@ -50,7 +52,8 @@
    "interest",
    "discount"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-004",
@@ -67,7 +70,8 @@
    "interest",
    "discount"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-005",
@@ -85,7 +89,8 @@
    "discount",
    "identity"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-006",
@@ -103,7 +108,8 @@
    "nominal",
    "effective"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-007",
@@ -121,7 +127,8 @@
    "nominal",
    "discount"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-008",
@@ -139,7 +146,8 @@
    "nominal",
    "discount"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-009",
@@ -157,7 +165,8 @@
    "force",
    "continuous"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-010",
@@ -175,7 +184,8 @@
    "force",
    "accumulation"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-011",
@@ -193,7 +203,8 @@
    "force",
    "accumulation"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-012",
@@ -211,7 +222,8 @@
    "ordering",
    "force"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-int-013",
@@ -228,7 +240,8 @@
    "interest",
    "simple"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-tvm-001",
@@ -245,7 +258,8 @@
    "tvm",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-tvm-002",
@@ -262,7 +276,8 @@
    "tvm",
    "equation-of-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-tvm-003",
@@ -279,7 +294,8 @@
    "tvm",
    "approximation"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
   "id": "fm-ann-001",
@@ -297,7 +313,8 @@
    "immediate",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 15 to 16, or the Unit 3 Lesson"
  },
  {
   "id": "fm-ann-002",
@@ -315,7 +332,8 @@
    "immediate",
    "accumulated-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 15 to 16, or the Unit 3 Lesson"
  },
  {
   "id": "fm-ann-003",
@@ -333,7 +351,8 @@
    "due",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 15 to 16, or the Unit 3 Lesson"
  },
  {
   "id": "fm-ann-004",
@@ -351,7 +370,8 @@
    "due",
    "accumulated-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 15 to 16, or the Unit 3 Lesson"
  },
  {
   "id": "fm-ann-005",
@@ -368,7 +388,8 @@
    "annuity",
    "identity"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 15 to 16, or the Unit 3 Lesson"
  },
  {
   "id": "fm-ann-006",
@@ -386,7 +407,8 @@
    "deferred",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-007",
@@ -404,7 +426,8 @@
    "immediate",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-008",
@@ -422,7 +445,8 @@
    "due",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-009",
@@ -440,7 +464,8 @@
    "increasing",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-010",
@@ -458,7 +483,8 @@
    "decreasing",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-011",
@@ -476,7 +502,8 @@
    "increasing",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-012",
@@ -494,7 +521,8 @@
    "geometric",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-013",
@@ -512,7 +540,8 @@
    "geometric",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-014",
@@ -530,7 +559,8 @@
    "continuous",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 25 to 26, or the Unit 5 Lesson"
  },
  {
   "id": "fm-ann-015",
@@ -548,7 +578,8 @@
    "continuous",
    "accumulated-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 25 to 26, or the Unit 5 Lesson"
  },
  {
   "id": "fm-ann-016",
@@ -566,7 +597,8 @@
    "continuous",
    "increasing"
   ],
-  "confidence": "check"
+  "confidence": "check",
+  "review": "Finan Sections 25 to 26, or the Unit 5 Lesson"
  },
  {
   "id": "fm-ann-017",
@@ -585,7 +617,8 @@
    "decreasing",
    "identity"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 17 to 20, or the Unit 4 Lesson"
  },
  {
   "id": "fm-ann-018",
@@ -603,7 +636,8 @@
    "mthly",
    "present-value"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 25 to 26, or the Unit 5 Lesson"
  },
  {
   "id": "fm-loan-001",
@@ -621,7 +655,8 @@
    "outstanding-balance",
    "prospective"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 37 to 41, or the Unit 6 Lesson"
  },
  {
   "id": "fm-loan-002",
@@ -639,7 +674,8 @@
    "outstanding-balance",
    "retrospective"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 37 to 41, or the Unit 6 Lesson"
  },
  {
   "id": "fm-loan-003",
@@ -657,7 +693,8 @@
    "amortization",
    "interest"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 37 to 41, or the Unit 6 Lesson"
  },
  {
   "id": "fm-loan-004",
@@ -675,7 +712,8 @@
    "amortization",
    "principal"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 37 to 41, or the Unit 6 Lesson"
  },
  {
   "id": "fm-loan-005",
@@ -692,7 +730,8 @@
    "loan",
    "amortization"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 37 to 41, or the Unit 6 Lesson"
  },
  {
   "id": "fm-loan-006",
@@ -709,7 +748,8 @@
    "loan",
    "sinking-fund"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 37 to 41, or the Unit 6 Lesson"
  },
  {
   "id": "fm-loan-007",
@@ -727,7 +767,8 @@
    "sinking-fund",
    "amortization"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 37 to 41, or the Unit 6 Lesson"
  },
  {
   "id": "fm-bond-001",
@@ -744,7 +785,8 @@
    "bond",
    "price"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 42 to 44, or the Unit 8 Lesson"
  },
  {
   "id": "fm-bond-002",
@@ -763,7 +805,8 @@
    "discount",
    "price"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 42 to 44, or the Unit 8 Lesson"
  },
  {
   "id": "fm-bond-003",
@@ -781,7 +824,8 @@
    "premium",
    "discount"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 42 to 44, or the Unit 8 Lesson"
  },
  {
   "id": "fm-bond-004",
@@ -800,7 +844,8 @@
    "premium",
    "discount"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 42 to 44, or the Unit 8 Lesson"
  },
  {
   "id": "fm-bond-005",
@@ -818,7 +863,8 @@
    "amortization",
    "premium"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 42 to 44, or the Unit 8 Lesson"
  },
  {
   "id": "fm-bond-006",
@@ -836,7 +882,8 @@
    "makeham",
    "price"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 42 to 44, or the Unit 8 Lesson"
  },
  {
   "id": "fm-bond-007",
@@ -854,7 +901,8 @@
    "callable",
    "price"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 45 to 47, or the Unit 9 Lesson"
  },
  {
   "id": "fm-bond-008",
@@ -872,7 +920,8 @@
    "definition",
    "makeham"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 42 to 44, or the Unit 8 Lesson"
  },
  {
   "id": "fm-bond-009",
@@ -891,7 +940,8 @@
    "clean",
    "dirty"
   ],
-  "confidence": "check"
+  "confidence": "check",
+  "review": "Finan Sections 45 to 47, or the Unit 9 Lesson"
  },
  {
   "id": "fm-cf-001",
@@ -909,7 +959,8 @@
    "yield",
    "irr"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 30 to 34, or the Unit 10 Lesson"
  },
  {
   "id": "fm-cf-002",
@@ -926,7 +977,8 @@
    "cash-flow",
    "npv"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 30 to 34, or the Unit 10 Lesson"
  },
  {
   "id": "fm-cf-003",
@@ -945,7 +997,8 @@
    "dollar-weighted",
    "time-weighted"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 30 to 34, or the Unit 10 Lesson"
  },
  {
   "id": "fm-cf-004",
@@ -962,7 +1015,8 @@
    "cash-flow",
    "dollar-weighted"
   ],
-  "confidence": "check"
+  "confidence": "check",
+  "review": "Finan Sections 30 to 34, or the Unit 10 Lesson"
  },
  {
   "id": "fm-rate-001",
@@ -979,7 +1033,8 @@
    "spot-rate",
    "term-structure"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Section 53, or the Unit 10 Lesson"
  },
  {
   "id": "fm-rate-002",
@@ -997,7 +1052,8 @@
    "forward-rate",
    "term-structure"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Section 53, or the Unit 10 Lesson"
  },
  {
   "id": "fm-rate-003",
@@ -1015,7 +1071,8 @@
    "spot-rate",
    "term-structure"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Section 53, or the Unit 10 Lesson"
  },
  {
   "id": "fm-dur-001",
@@ -1032,7 +1089,8 @@
    "duration",
    "macaulay"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
  },
  {
   "id": "fm-dur-002",
@@ -1050,7 +1108,8 @@
    "modified",
    "macaulay"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
  },
  {
   "id": "fm-dur-003",
@@ -1068,7 +1127,8 @@
    "modified",
    "approximation"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
  },
  {
   "id": "fm-dur-004",
@@ -1086,7 +1146,8 @@
    "macaulay",
    "perpetuity"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
  },
  {
   "id": "fm-dur-005",
@@ -1103,7 +1164,8 @@
    "convexity",
    "macaulay"
   ],
-  "confidence": "check"
+  "confidence": "check",
+  "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
  },
  {
   "id": "fm-dur-006",
@@ -1120,7 +1182,8 @@
    "convexity",
    "modified"
   ],
-  "confidence": "check"
+  "confidence": "check",
+  "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
  },
  {
   "id": "fm-dur-007",
@@ -1138,7 +1201,8 @@
    "duration",
    "approximation"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
  },
  {
   "id": "fm-imm-001",
@@ -1155,7 +1219,8 @@
    "immunization",
    "redington"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 55 to 56, or the Unit 12 Lesson"
  },
  {
   "id": "fm-imm-002",
@@ -1173,7 +1238,8 @@
    "full",
    "redington"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 55 to 56, or the Unit 12 Lesson"
  },
  {
   "id": "fm-imm-003",
@@ -1191,6 +1257,7 @@
    "cash-flow-matching",
    "dedication"
   ],
-  "confidence": "high"
+  "confidence": "high",
+  "review": "Finan Sections 55 to 56, or the Unit 12 Lesson"
  }
 ]
