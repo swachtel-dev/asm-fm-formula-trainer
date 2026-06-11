@@ -597,7 +597,7 @@
    "continuous",
    "increasing"
   ],
-  "confidence": "check",
+  "confidence": "verified",
   "review": "Finan Sections 25 to 26, or the Unit 5 Lesson"
  },
  {
@@ -929,7 +929,7 @@
   "topic": "Bonds",
   "unit": 9,
   "front": "Price of a bond between coupon dates: dirty (full) price t into a coupon period (theoretical/semi-theoretical)",
-  "back": "Dirty price = B_t·(1+i)^t; clean price = dirty price − accrued coupon (Fr·t under practical/linear method)",
+  "back": "Dirty (flat) price = B_t·(1+i)^t; clean (market) price = dirty price − accrued coupon (Fr·t under the practical method). Finan calls these the flat price and the market price.",
   "latexFront": "P_{\\text{dirty}} = ?",
   "latexBack": "P_{\\text{dirty}} = B_t (1+i)^{t},\\quad P_{\\text{clean}} = P_{\\text{dirty}} - \\text{accrued}",
   "mnemonic": "Dirty = clean + accrued interest; quotes are usually clean.",
@@ -940,7 +940,7 @@
    "clean",
    "dirty"
   ],
-  "confidence": "check",
+  "confidence": "verified",
   "review": "Finan Sections 45 to 47, or the Unit 9 Lesson"
  },
  {
@@ -1015,7 +1015,7 @@
    "cash-flow",
    "dollar-weighted"
   ],
-  "confidence": "check",
+  "confidence": "verified",
   "review": "Finan Sections 30 to 34, or the Unit 10 Lesson"
  },
  {
@@ -1164,8 +1164,8 @@
    "convexity",
    "macaulay"
   ],
-  "confidence": "check",
-  "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
+  "confidence": "verified",
+  "review": "the Unit 11 Lesson (Finan does not name this; it is the SOA syllabus definition)"
  },
  {
   "id": "fm-dur-006",
@@ -1182,7 +1182,7 @@
    "convexity",
    "modified"
   ],
-  "confidence": "check",
+  "confidence": "verified",
   "review": "Finan Sections 54 to 55, or the Unit 11 Lesson"
  },
  {
