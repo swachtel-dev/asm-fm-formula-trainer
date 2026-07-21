@@ -298,6 +298,25 @@
   "review": "Finan Sections 1 to 14, or the Unit 2 Lesson"
  },
  {
+  "id": "fm-tvm-004",
+  "type": "formula",
+  "topic": "Time Value of Money",
+  "unit": 2,
+  "front": "Real (inflation-adjusted) rate of interest when money earns effective rate i and inflation runs at rate r",
+  "back": "i_real = (i - r)/(1 + r); subtract inflation, then deflate to end-of-year prices.",
+  "latexFront": "i_{\\text{real}} = ?",
+  "latexBack": "i_{\\text{real}} = \\dfrac{i - r}{1 + r}",
+  "mnemonic": "The gap i - r is quoted in inflated dollars; dividing by 1 + r converts it to purchasing power.",
+  "source": "ASM FM / FM syllabus define-and-recognize term",
+  "tags": [
+   "tvm",
+   "inflation",
+   "real-rate"
+  ],
+  "confidence": "high",
+  "review": "Finan Section 52, or the Unit 2 Lesson"
+ },
+ {
   "id": "fm-ann-001",
   "type": "formula",
   "topic": "Annuities",
