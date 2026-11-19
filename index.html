@@ -29,8 +29,9 @@
   @media (prefers-color-scheme: dark){
     :root{
       --bg:#161b20;--surface:#1f262d;--ink:#e7ecf0;--ink-soft:#a7b1bb;
-      --line:#323a43;--accent:#7fb6d1;--accent-soft:#243640;--shadow:0 1px 3px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
+      --line:#323a43;--accent:#7fb6d1;--accent-soft:#243640;--on-accent:#10161b;--shadow:0 1px 3px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
     }
+    a{color:var(--accent)}
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -93,7 +94,7 @@
 
   /* Action zone */
   .actions{margin-top:16px}
-  .reveal-btn{width:100%;padding:14px;font-size:1rem;font-weight:600;background:var(--accent);color:#fff;border-color:var(--accent)}
+  .reveal-btn{width:100%;padding:14px;font-size:1rem;font-weight:600;background:var(--accent);color:var(--on-accent,#fff);border-color:var(--accent)}
   .reveal-btn:hover{filter:brightness(1.05)}
   .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
   .grade{padding:12px 6px;font-weight:600;color:#fff;border:none;display:flex;flex-direction:column;align-items:center;gap:2px}
@@ -103,7 +104,7 @@
   .grade.hard{background:var(--hard)}
   .grade.good{background:var(--good)}
   .grade.easy{background:var(--easy)}
-  .kbd{font-size:.68rem;opacity:.8;font-family:ui-monospace,Menlo,monospace}
+  .kbd{font-size:.68rem;opacity:.92;font-family:ui-monospace,Menlo,monospace}
 
   .empty{text-align:center;padding:50px 20px;color:var(--ink-soft)}
   .empty h2{color:var(--ink);font-size:1.1rem}
